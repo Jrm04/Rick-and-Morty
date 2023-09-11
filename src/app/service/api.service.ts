@@ -1,17 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, tap } from 'rxjs';
+import { Character } from '../character';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private URL = 'https://rickandmortyapi.com/api/character/1,183'
+  private URL = 'https://rickandmortyapi.com/api/character/1,10'
 
   constructor(private http: HttpClient) { }
 
-  public getData(): Observable<any>{
-    return this.http.get<any>(this.URL);
+  public getCharacters(): Observable<Character[]>{
+    return this.http.get<Character[]>(this.URL)
+    /* .pipe(
+      tap(_=> this.log('fetched characters')),
+      catchError(this.handleError)
+    ); */
   }
 }

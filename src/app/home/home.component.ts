@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ApiService } from '../service/api.service';
+import { Character } from '../character';
 
 @Component({
   selector: 'app-home',
@@ -7,19 +8,14 @@ import { ApiService } from '../service/api.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  characters: Character[] = [];
+  apiService: ApiService = inject(ApiService);
 
-  data: any[] = [];
-
-  constructor(private apiService: ApiService) {}
-
-  ngOnInit(): void {
-    this.llenarData()
-  }
-
-  llenarData(){
-    this.apiService.getData().subscribe( data => {
-      this.data = data;
-      console.log(this.data)
+  constructor(){
+    this.apiService.getCharacters().subscribe( characters => {
+      this.characters = characters;
+      console.log(characters);
     })
   }
+  
 }
